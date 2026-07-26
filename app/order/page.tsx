@@ -18,7 +18,7 @@ export default function OrderPage() {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const hkPhonePattern = /^(?:\+852\s?)?[5689]\d{3}\s?\d{4}$/;
     const weekday = date ? new Date(date).getDay() : null;
 
@@ -52,9 +52,25 @@ export default function OrderPage() {
       request,
     };
 
-    localStorage.setItem('lastOrder', JSON.stringify(payload));
-    clearCart();
-    router.push('/confirmation');
+    try {
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Unable to sync order');
+      }
+
+      localStorage.setItem('lastOrder', JSON.stringify(payload));
+      clearCart();
+      router.push('/confirmation');
+    } catch {
+      setError('訂單已建立，但同步到 Google Sheets 時發生問題。');
+    }
   };
 
   return (
