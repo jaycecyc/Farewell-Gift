@@ -4,7 +4,7 @@ import { CartProvider } from '@/context/cart-context';
 import { Navbar } from '@/components/navbar';
 
 export const metadata: Metadata = {
-  title: '散水餅訂購 | Farewell Cake Shop',
+  title: '至尊寶散水站 | 散水餅訂購',
   description: '為香港辦公室同事準備的散水餅訂購平台。',
 };
 

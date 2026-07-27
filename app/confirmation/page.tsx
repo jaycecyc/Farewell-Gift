@@ -17,10 +17,9 @@ export default function ConfirmationPage() {
   const [order, setOrder] = useState<OrderData | null>(null);
   const [copied, setCopied] = useState(false);
   const paymeCode = '60899809';
-  const paymeLink = 'https://qr.payme.hsbc.com.hk/1/Ua9AYXs1uTEcQfWiT782pL';
   const whatsappNumber = '85244157297';
   const whatsappMessage = encodeURIComponent(
-    `Hello! I would like to place an order.\n\nOrder Number: ${order?.orderNumber || 'N/A'}\nCustomer Name: ${order?.customer.name || 'N/A'}\nPhone: ${order?.customer.phone || 'N/A'}\nAddress: ${order?.customer.address || 'N/A'}\nDelivery Date: ${order?.delivery.date || 'N/A'}\nDelivery Time: ${order?.delivery.slot || 'N/A'}\nTotal Amount: HK$${order?.totalPrice ? formatPrice(order.totalPrice) : 'N/A'}\n\nI have completed my payment and attached the payment screenshot. Please confirm my order.`
+    `您好，我已完成付款，請協助確認我的訂單。\n\n訂單編號: ${order?.orderNumber || 'N/A'}\n姓名: ${order?.customer.name || 'N/A'}\n電話: ${order?.customer.phone || 'N/A'}\n地址: ${order?.customer.address || 'N/A'}\n送貨日期: ${order?.delivery.date || 'N/A'}\n送貨時段: ${order?.delivery.slot || 'N/A'}\n總金額: HK$${order?.totalPrice ? formatPrice(order.totalPrice) : 'N/A'}\n\n謝謝。`
   );
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
@@ -82,39 +81,34 @@ export default function ConfirmationPage() {
             <h2 className="text-xl font-semibold text-slate-900">付款說明</h2>
             <div className="rounded-3xl border border-brand-200 bg-white p-5 shadow-sm">
               <p className="text-sm uppercase tracking-[0.2em] text-brand-600">PayMe / FPS</p>
-              <p className="mt-3 text-slate-700">請使用 PayMe 或 FPS 付款，付款資料如下：</p>
-              <div className="mt-4 flex items-center justify-between gap-3 rounded-2xl bg-slate-950 px-4 py-3">
-                <span className="font-mono text-lg font-semibold text-white">{paymeCode}</span>
-                <button
-                  type="button"
-                  onClick={async () => {
-                    try {
-                      await navigator.clipboard.writeText(paymeCode);
-                      setCopied(true);
-                      window.setTimeout(() => setCopied(false), 1800);
-                    } catch {
-                      // ignore clipboard errors
-                    }
-                  }}
-                  className="rounded-full bg-brand-600 px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-brand-700"
-                >
-                  {copied ? '已複製' : '複製'}
-                </button>
+              <p className="mt-3 text-slate-700">請使用 PayMe 或 FPS 付款。您可以掃描下方的 PayMe 二維碼或使用帳號轉帳。</p>
+              <div className="mt-4 flex flex-col items-center gap-3 rounded-2xl bg-slate-950 px-4 py-3">
+                <img src="/images/payme_code.jpg" alt="PayMe QR" className="h-40 w-40 object-contain" />
+                <div className="mt-2 flex items-center justify-between gap-3 w-full max-w-sm">
+                  <span className="font-mono text-lg font-semibold text-white">{paymeCode}</span>
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      try {
+                        await navigator.clipboard.writeText(paymeCode);
+                        setCopied(true);
+                        window.setTimeout(() => setCopied(false), 1800);
+                      } catch {
+                        // ignore clipboard errors
+                      }
+                    }}
+                    className="rounded-full bg-brand-600 px-3 py-1.5 text-sm font-semibold text-white transition hover:bg-brand-700"
+                  >
+                    {copied ? '已複製' : '複製'}
+                  </button>
+                </div>
               </div>
-              <a
-                href={paymeLink}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-4 inline-flex items-center text-sm font-semibold text-brand-600 hover:underline"
-              >
-                打開 PayMe 付款連結
-              </a>
-              <div className="mt-3 rounded-2xl bg-white p-4 text-sm text-slate-600 shadow-sm">
+              <div className="mt-4 rounded-2xl bg-white p-4 text-sm text-slate-600 shadow-sm">
                 <p className="font-semibold text-slate-900">付款後請這樣做：</p>
                 <ul className="mt-2 list-disc space-y-1 pl-5">
-                  <li>請截圖付款紀錄</li>
-                  <li>點擊下方 WhatsApp 按鈕</li>
-                  <li>將截圖發送給我們，並附上您的訂單資料</li>
+                  <li>請截圖或保留付款紀錄</li>
+                  <li>使用下方 WhatsApp 按鈕聯絡我們</li>
+                  <li>在 WhatsApp 中上傳付款截圖並附上您的訂單資料</li>
                 </ul>
               </div>
               <a
@@ -125,7 +119,8 @@ export default function ConfirmationPage() {
               >
                 WhatsApp 通知我
               </a>
-              <p className="mt-3 text-sm text-slate-500">按下 WhatsApp 按鈕後，系統會自動幫您填好簡短通知訊息，方便您立即發送給我們。</p>
+              <p className="mt-3 text-sm text-slate-500">點選後會開啟 WhatsApp 並帶入簡短訊息，您可以在對話中附上付款截圖。</p>
+              {/* Upload removed — customers can attach screenshots directly in WhatsApp if needed */}
             </div>
             <div className="rounded-3xl bg-white p-5 shadow-sm">
               <p className="text-sm uppercase tracking-[0.2em] text-brand-600">訂單摘要</p>
