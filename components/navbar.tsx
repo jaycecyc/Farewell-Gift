@@ -10,11 +10,14 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur"> 
       <div className="container flex items-center justify-between py-4">
         <Link href="/" className="text-xl font-bold text-slate-900">
-          至尊寶散水站
+          尊寶散水站
         </Link>
         <nav className="flex flex-wrap items-center gap-4 text-sm text-slate-700">
-          <Link href="/products" className="transition hover:text-brand-600">
-            產品
+          <Link href="/" className="transition hover:text-brand-600">
+            首頁
+          </Link>
+          <Link href="/products/designs" className="transition hover:text-brand-600">
+            設計
           </Link>
           <Link href="/order" className="transition hover:text-brand-600">
             訂購

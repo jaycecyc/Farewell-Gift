@@ -15,12 +15,6 @@ export function FeaturedProduct({ product }: FeaturedProductProps) {
         <p className="mt-3 text-sm leading-6 text-slate-600">{product.description}</p>
         <div className="mt-6 flex items-center justify-between">
           <span className="text-2xl font-bold text-slate-900">HK${product.price}</span>
-          <Link
-            href={`/products/${product.id}`}
-            className="rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800"
-          >
-            查看
-          </Link>
         </div>
       </div>
     </article>

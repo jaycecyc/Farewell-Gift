@@ -1,51 +1,24 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import { ProductCard } from '@/components/product-card';
-import { ProductType, products } from '@/data/products';
-
-type ProductFilterType = ProductType | 'All';
-
-const filterOptions: ProductFilterType[] = ['All', 'Traditional', 'Premium', 'Mini Set'];
+import Link from 'next/link';
 
 export default function ProductsPage() {
-  const [activeFilter, setActiveFilter] = useState<ProductFilterType>('All');
-
-  const filteredProducts = useMemo(() => {
-    if (activeFilter === 'All') return products;
-    return products.filter((product) => product.category === activeFilter);
-  }, [activeFilter]);
-
   return (
     <main className="container py-16">
       <div className="mb-10">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">產品目錄</p>
-        <h1 className="mt-3 text-4xl font-bold text-slate-900">散水餅蛋糕選擇</h1>
+        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-600">產品介紹</p>
+        <h1 className="mt-3 text-4xl font-bold text-slate-900">我們的產品</h1>
         <p className="mt-3 max-w-2xl text-slate-600">
-          精選傳統、Premium 及迷你組合，方便為告別聚會採購。點擊產品了解更多並加入訂單。
+          我們只提供一款產品：一個禮盒，內含一塊餅乾與一包茶包。先到設計列表挑選喜歡的外觀，再在設計頁面選擇數量並加入購物車。
         </p>
-      </div>
-
-      <div className="mb-8 flex flex-wrap gap-3">
-        {filterOptions.map((option) => (
-          <button
-            key={option}
-            onClick={() => setActiveFilter(option)}
-            className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-              activeFilter === option
-                ? 'bg-brand-600 text-white'
-                : 'border border-slate-300 bg-white text-slate-700 hover:border-brand-500 hover:text-brand-700'
-            }`}
+        <div className="mt-6">
+          <Link
+            href="/products/designs"
+            className="inline-block rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white"
           >
-            {option}
-          </button>
-        ))}
-      </div>
-
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {filteredProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+            開始選設計
+          </Link>
+        </div>
       </div>
     </main>
   );
