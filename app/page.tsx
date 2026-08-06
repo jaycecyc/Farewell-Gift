@@ -16,11 +16,7 @@ export default function HomePage() {
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 mb-4">散水餅・告別同事的小心意</h1>
 
-          <div className="flex items-center justify-center gap-3 text-2xl mb-4" aria-hidden>
-            <span>🍪</span>
-            <span>☕</span>
-            <span>🎁</span>
-          </div>
+          <p className="text-base font-semibold text-brand-600 mb-4">HK$15 一盒，卡通款超搞鬼！🎉</p>
 
           <div className="mx-auto mb-6 max-w-3xl">
             <img

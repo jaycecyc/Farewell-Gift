@@ -15,6 +15,7 @@ interface CartState {
   totalCount: number;
   totalPrice: number;
   addItem: (item: CartItem) => void;
+  updateItemQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
 }
 
@@ -46,10 +47,25 @@ export const useCartStore = create<CartState>((set, get) => ({
         )
       : [...existingItems, item];
 
-    set({ cartItems: updatedItems });
-    const totalCount = updatedItems.reduce((sum, product) => sum + product.quantity, 0);
-    const totalPrice = updatedItems.reduce((sum, product) => sum + product.quantity * product.product.price, 0);
-    set({ totalCount, totalPrice });
+    const totalCount = updatedItems.reduce((sum, cart) => sum + cart.quantity, 0);
+    const totalPrice = updatedItems.reduce((sum, cart) => sum + cart.quantity * cart.product.price, 0);
+    set({ cartItems: updatedItems, totalCount, totalPrice });
+    localStorage.setItem('cartItems', JSON.stringify(updatedItems));
+  },
+  updateItemQuantity: (productId, quantity) => {
+    const existingItems = get().cartItems;
+    const normalizedQuantity = Math.max(0, Math.min(quantity, 20));
+    const updatedItems = existingItems
+      .map((cart) =>
+        cart.product.id === productId
+          ? { ...cart, quantity: normalizedQuantity }
+          : cart
+      )
+      .filter((cart) => cart.quantity > 0);
+
+    const totalCount = updatedItems.reduce((sum, cart) => sum + cart.quantity, 0);
+    const totalPrice = updatedItems.reduce((sum, cart) => sum + cart.quantity * cart.product.price, 0);
+    set({ cartItems: updatedItems, totalCount, totalPrice });
     localStorage.setItem('cartItems', JSON.stringify(updatedItems));
   },
   clearCart: () => {
